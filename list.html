@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../fontawesome-5.15.3/css/all.css">
+  <link rel="stylesheet" href="../bootstrap-5.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="shortcut icon" href="../img/emoji.ico" type="image/x-icon">
+  <title>Delivery das Gurias</title>
+</head>
+<body>
+    <header>
+      <h2>Delivery das Gurias</h2>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Eventos</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link " aria-current="page" href="/evento/list">Eventos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cliente/list">Cliente</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sobre">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/compra/list">Bebidas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <form th:action="@{/compra/search}" method="post" th:object="${compra}">
+      <div class="form-group input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+        <input name="consulta" id="txt_consulta" th:field="${compra.produto}" placeholder="Consultar" type="text" class="form-control">
+
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Pesquisar</button>
+      </div>
+    </form>
+    <div class="container table-responsive">
+
+      <table class="table">
+        <thead  class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Produto</th>
+          <th scope="col">Preço</th>
+          <th scope="col">Quantidade</th>
+          <th scope="col" colspan="2">
+            <a class="a-add" href="./add"><i class="fa fa-plus"></i> Novo</a>
+          </th>
+        </tr>
+        </thead>
+        <tbody class="tableboot">
+        <tr th:each="compra : ${compras}">
+          <th scope="row" th:text="${compra.id}"></th>
+          <td th:text="${compra.produto}"></td>
+          <td th:text="${compra.preco}"></td>
+          <td th:text="${compra.quantidade}"></td>
+          <td><a class="a-edit" th:href="@{'./edit/' + ${compra.id}}"><i class="far fa-edit"></i></a></td>
+          <td><a class="a-delete" th:onclick="|showModalDeletar('compra', ${compra.id})|"><i class="fa fa-trash"></i></a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--MODAL PARA DELETAR-->
+    <div class="modal" tabindex="-1" id="modalDeletar">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Atenção</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Você realmente deseja deletar o registro?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" th:onclick="deletar()">Deletar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../bootstrap-5.0.0/js/bootstrap.min.js"></script>
+    <script src="../js/script.js"></script>
+
+</body>
+</html>
